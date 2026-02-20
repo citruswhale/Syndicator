@@ -1,0 +1,145 @@
+{
+  "project_identity": {
+    "name": "Graph-Based Financial Crime Detection Engine",
+    "tone": "Dark Forensics, Cybersecurity, Elite Intelligence, Trusted Authority",
+    "persona": "E1: The Anti-AI Designer",
+    "core_philosophy": "Data is beautiful, but crime is ugly. Reveal the ugly truth with beautiful data.",
+    "theme_mode": "dark"
+  },
+  "typography": {
+    "font_family": {
+      "heading": "JetBrains Mono, monospace",
+      "body": "Inter, sans-serif",
+      "data": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-6xl font-bold tracking-tight",
+      "h2": "text-3xl font-semibold tracking-tight",
+      "h3": "text-xl font-medium tracking-tight uppercase",
+      "body": "text-base leading-relaxed text-zinc-300",
+      "caption": "text-xs uppercase tracking-widest text-zinc-500",
+      "data_value": "font-mono text-lg font-bold"
+    },
+    "rules": [
+      "Use JetBrains Mono for ALL headings, numbers, and data values.",
+      "Use Inter ONLY for long-form text and UI labels.",
+      "Uppercase all labels (e.g., 'TRANSACTION ID', 'RISK SCORE') with tracking-widest.",
+      "No generic 'Sans-Serif' fallbacks if possible; stick to the stack."
+    ]
+  },
+  "colors": {
+    "palette": {
+      "background": "#09090b",
+      "surface": "#18181b",
+      "surface_highlight": "#27272a",
+      "border": "#27272a",
+      "primary": "#3b82f6",
+      "primary_glow": "#60a5fa",
+      "danger": "#ef4444",
+      "danger_glow": "#f87171",
+      "warning": "#f59e0b",
+      "success": "#10b981",
+      "text_primary": "#fafafa",
+      "text_secondary": "#a1a1aa",
+      "text_muted": "#52525b"
+    },
+    "semantic": {
+      "fraud": "#ef4444",
+      "suspicious": "#f59e0b",
+      "safe": "#3b82f6",
+      "connection": "#52525b"
+    },
+    "gradients": {
+      "hero": "radial-gradient(circle at center, #18181b 0%, #09090b 100%)",
+      "scanline": "linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5) 51%)"
+    }
+  },
+  "layout": {
+    "grid_system": "Bento Grid (CSS Grid)",
+    "spacing": {
+      "container_padding": "p-6 md:p-12",
+      "card_gap": "gap-4 md:gap-6",
+      "section_gap": "gap-12"
+    },
+    "containers": {
+      "card": "bg-zinc-900 border border-zinc-800 rounded-sm p-6 relative overflow-hidden",
+      "panel": "bg-black/50 backdrop-blur-md border-r border-zinc-800 h-full",
+      "dashboard_grid": "grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-min"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-blue-600 hover:bg-blue-500 text-white font-mono uppercase tracking-wider rounded-sm px-6 py-2 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.5)]",
+      "danger": "bg-red-600 hover:bg-red-500 text-white font-mono uppercase tracking-wider rounded-sm px-6 py-2 transition-all duration-300 shadow-[0_0_10px_rgba(239,68,68,0.5)]",
+      "outline": "bg-transparent border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white font-mono uppercase tracking-wider rounded-sm px-6 py-2 transition-all"
+    },
+    "cards": {
+      "forensics": "relative bg-zinc-950 border border-zinc-800 rounded-none p-6 hover:border-zinc-600 transition-colors group",
+      "stat": "flex flex-col gap-2 p-4 bg-zinc-900/50 border border-zinc-800/50 rounded-sm"
+    },
+    "inputs": {
+      "search": "bg-zinc-900 border-b border-zinc-700 focus:border-blue-500 text-white placeholder-zinc-500 font-mono py-2 px-4 outline-none transition-colors w-full rounded-none"
+    }
+  },
+  "visual_enhancers": {
+    "borders": "1px solid #27272a",
+    "shadows": "none",
+    "glassmorphism": "backdrop-blur-xl bg-black/40 border-b border-white/5",
+    "tech_decorations": [
+      "Corner accents (4px border on corners)",
+      "Scanlines overlay (pointer-events-none)",
+      "Glowing dots on active elements"
+    ],
+    "motion": {
+      "hover": "transition-all duration-200 ease-out",
+      "entrance": "animate-in fade-in slide-in-from-bottom-4 duration-500"
+    }
+  },
+  "assets": {
+    "icons": "Lucide React (e.g., ShieldAlert, Network, Search, Activity, Lock, Database, FileUp)",
+    "image_urls": [
+      {
+        "category": "background",
+        "url": "https://images.unsplash.com/photo-1647356191320-d7a1f80ca777?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "Abstract purple/blue network grid for subtle texture overlays."
+      },
+      {
+        "category": "hero",
+        "url": "https://images.unsplash.com/photo-1706158449580-d4fd729c5f6e?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "description": "Deep space network nodes for hero background."
+      }
+    ]
+  },
+  "tech_stack_instructions": {
+    "libraries": [
+      "react-force-graph-3d (CRITICAL: Must use for main graph)",
+      "recharts (For statistical charts: bar, area)",
+      "lucide-react (Icons)",
+      "framer-motion (For UI transitions)",
+      "clsx & tailwind-merge (Utility)",
+      "sonner (Toasts)",
+      "papaparse (For CSV parsing on frontend if needed, or send to backend)"
+    ],
+    "installation_commands": [
+      "yarn add react-force-graph-3d three",
+      "yarn add recharts",
+      "yarn add framer-motion",
+      "yarn add lucide-react",
+      "yarn add sonner",
+      "yarn add papaparse"
+    ],
+    "implementation_notes": {
+      "graph": "Use `ForceGraph3D` for the main visualization. Nodes should be spheres. Edges should be lines. Use auto-coloring based on 'risk_score' (Red=High, Amber=Medium, Blue=Low). Add glow effects using custom node rendering if possible, or just emissive materials.",
+      "csv_upload": "Use a drag-and-drop zone. Show a progress bar styled like a hacking tool (text-based progress).",
+      "data_handling": "Ensure the graph can handle 10k nodes. If performance lags, switch `react-force-graph-3d` to static mode or reduce particle count."
+    }
+  },
+  "universal_guidelines": [
+    "NO EMOJIS. This is a serious crime detection tool. Use icons (Lucide) instead.",
+    "Dark Mode ONLY. Do not implement a light mode toggle.",
+    "Performance First: The graph must be smooth. Use WebGL.",
+    "Data Density: Don't waste space. Use compact tables and grids.",
+    "Feedback: Every action (upload, analyze, click) must have immediate visual feedback (loading spinners, toast notifications).",
+    "Interactive Graph: Clicking a node must open a 'Suspect Profile' side panel or modal."
+  ]
+}
