@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 
 
-def detect_cycles(G, min_length=3, max_length=5, max_cycles=None, min_edge_amount=0):
+def detect_cycles(G, min_length=3, max_length=5, max_cycles=None, min_edge_amount=500):
     """
     Detect Circular Fund Routing patterns (spec: cycles of length 3 to 5).
     

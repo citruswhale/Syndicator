@@ -1,7 +1,7 @@
 import networkx as nx
 
 
-def detect_shell_networks(G, min_hops=3, max_shell_tx_count=None, max_hops=7, max_patterns=None):
+def detect_shell_networks(G, min_hops=3, max_shell_tx_count=3, max_hops=7, max_patterns=None):
     """
     Detect Layered Shell Networks.
     
@@ -23,9 +23,6 @@ def detect_shell_networks(G, min_hops=3, max_shell_tx_count=None, max_hops=7, ma
     if max_patterns is None:
         N = G.number_of_nodes()
         max_patterns = max(10, int(0.15 * N)) if N < 1000 else max(100, int(0.05 * N))
-        
-    if max_shell_tx_count is None:
-        max_shell_tx_count = 5 if G.number_of_nodes() < 1000 else 3
 
     tx_counts = {}
     for node in G.nodes():

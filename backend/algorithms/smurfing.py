@@ -3,7 +3,7 @@ import numpy as np
 from datetime import timedelta
 
 
-def detect_smurfing(G, transactions_df, time_window_hours=72, min_fan=None):
+def detect_smurfing(G, transactions_df, time_window_hours=72, min_fan=10):
     """
     Detect Smurfing Patterns using pure vectorized operations.
     
@@ -26,11 +26,7 @@ def detect_smurfing(G, transactions_df, time_window_hours=72, min_fan=None):
     transactions_df['ts'] = pd.to_datetime(transactions_df['timestamp'], format='mixed', errors='coerce')
     transactions_df = transactions_df.dropna(subset=['ts'])
     
-    # Scale down the strict 10+ requirement for very small custom datasets
-    if min_fan is None:
-        min_fan = 10 if G.number_of_nodes() >= 1000 else 5
-
-    # Pre-filter candidates: nodes with high fan-in OR high fan-out
+    # Pre-filter candidates: nodes with high fan-in OR high fan-out (spec says 10+)
     candidates = [
         node for node in G.nodes()
         if G.in_degree(node) >= min_fan or G.out_degree(node) >= min_fan
@@ -129,10 +125,10 @@ def detect_smurfing(G, transactions_df, time_window_hours=72, min_fan=None):
                     fan_out_tx = outgoing[out_window]
 
                     # Variance check for payroll detection
-                    if len(fan_out_tx) >= min_fan:
+                    if len(fan_out_tx) >= 10:
                         fan_out_amounts = fan_out_tx['amount'].values
                         variance = fan_out_amounts.std() / (fan_out_amounts.mean() + 1)
-                        if variance < 0.005:  # Fix: Must be incredibly strict (0.005) so it ONLY catches true payroll
+                        if variance < 0.005:  # Fix: Must be incredibly strict (0.005) so it ONLY catches true payroll (nearly identical amounts) and allows random smurf amounts through.
                             continue
 
                     member_accounts = list(set(
