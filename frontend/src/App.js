@@ -1,4 +1,5 @@
 import "@/App.css";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import { AnalysisProvider } from "@/context/AnalysisContext";
@@ -12,6 +13,16 @@ import SuspiciousAccountsPage from "@/pages/SuspiciousAccountsPage";
 import JsonOutputPage from "@/pages/JsonOutputPage";
 
 function App() {
+  useEffect(() => {
+    // Ping the backend every 3 minutes (180,000 ms) to keep it active
+    const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api/` : 'http://localhost:8001/api/';
+    const pingInterval = setInterval(() => {
+      fetch(API).catch(console.error);
+    }, 3 * 60 * 1000);
+
+    return () => clearInterval(pingInterval);
+  }, []);
+
   return (
     <ThemeProvider>
       <AnalysisProvider>
@@ -40,10 +51,10 @@ function App() {
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: '12px',
               },
-          }}
-        />
-      </BrowserRouter>
-    </AnalysisProvider>
+            }}
+          />
+        </BrowserRouter>
+      </AnalysisProvider>
     </ThemeProvider>
   );
 }
