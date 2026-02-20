@@ -16,9 +16,9 @@ def generate_sample_data(num_transactions=10000, num_accounts=1500):
     All pattern pools are NON-OVERLAPPING to ensure distinct fraud rings.
     
     Includes:
-    - 4 circular fund routing cycles (3-5 members, with amount degradation + timing)
-    - 4 smurfing patterns (aggregators with 10-15 fan-in/fan-out)
-    - 4 shell network chains (3-5 shell intermediaries)
+    - 6 circular fund routing cycles (3-5 members, with amount degradation + timing)
+    - 6 smurfing patterns (aggregators with 10-15 fan-in/fan-out)
+    - 6 shell network chains (3-5 shell intermediaries)
     - False positive traps: 1 merchant, 1 payroll account
     - Normal background transactions
     """
@@ -39,13 +39,13 @@ def generate_sample_data(num_transactions=10000, num_accounts=1500):
     # Pool G: accounts[700:900]   → false positive traps
     # Pool H: accounts[900:]      → normal background transactions
 
-    # --- 1. CIRCULAR FUND ROUTING (4 cycles, varied lengths) ---
-    forced_lengths = [3, 4, 3, 5]  # Ensure variety in cycle sizes
-    for i in range(4):
+    # --- 1. CIRCULAR FUND ROUTING (6 cycles, varied lengths) ---
+    forced_lengths = [3, 4, 3, 5, 4, 3]  # Ensure variety in cycle sizes
+    for i in range(6):
         cycle_len = forced_lengths[i]
         # Each cycle draws from a distinct slice of Pool A
-        slice_start = i * 50
-        cycle = random.sample(accounts[slice_start:slice_start + 50], cycle_len)
+        slice_start = i * 20
+        cycle = random.sample(accounts[slice_start:slice_start + 20], cycle_len)
         
         cycle_base_time = base_time + timedelta(days=i * 7)
         
@@ -66,24 +66,24 @@ def generate_sample_data(num_transactions=10000, num_accounts=1500):
                     'timestamp': tx_time.isoformat()
                 })
 
-    # --- 2. SMURFING PATTERNS (4 aggregators, 10-15 fan-in/fan-out) ---
-    for i in range(4):
+    # --- 2. SMURFING PATTERNS (6 aggregators, 10-15 fan-in/fan-out) ---
+    for i in range(6):
         aggregator = accounts[200 + i]
         
         # Each smurfing pattern draws from distinct slices of Pool C and D
-        fan_in_slice_start = 210 + i * 40
-        fan_out_slice_start = 410 + i * 40
+        fan_in_slice_start = 210 + i * 30
+        fan_out_slice_start = 410 + i * 30
         
         fan_in_count = random.randint(10, 15)
         fan_out_count = random.randint(10, 15)
         
         fan_in_accs = random.sample(
-            accounts[fan_in_slice_start:fan_in_slice_start + 40],
-            min(fan_in_count, 40)
+            accounts[fan_in_slice_start:fan_in_slice_start + 30],
+            min(fan_in_count, 30)
         )
         fan_out_accs = random.sample(
-            accounts[fan_out_slice_start:fan_out_slice_start + 40],
-            min(fan_out_count, 40)
+            accounts[fan_out_slice_start:fan_out_slice_start + 30],
+            min(fan_out_count, 30)
         )
 
         base_fan_time = base_time + timedelta(days=random.randint(1, 20))
@@ -113,9 +113,9 @@ def generate_sample_data(num_transactions=10000, num_accounts=1500):
                 )).isoformat()
             })
 
-    # --- 3. SHELL NETWORKS (4 chains, distinct accounts) ---
+    # --- 3. SHELL NETWORKS (6 chains, distinct accounts) ---
     shell_pool = []
-    for i in range(4):
+    for i in range(6):
         source = accounts[610 + i * 2]
         destination = accounts[611 + i * 2]
         num_shells = random.randint(3, 5)
