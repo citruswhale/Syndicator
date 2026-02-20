@@ -88,8 +88,8 @@ def detect_smurfing(G, transactions_df, time_window_hours=72, min_fan=10):
         # Slightly relaxed from 0.7 to 0.75 for marginally better recall
         in_deg = G.in_degree(node)
         out_deg = G.out_degree(node)
-        
-        if (in_deg > 3 * out_deg and fir > 0.75) or (out_deg > 3 * in_deg and fir > 0.75):
+        excluded = (in_deg > 3 * out_deg and fir > 0.90) or (out_deg > 3 * in_deg and fir > 0.90)
+        if excluded:
             continue
 
         incoming = incoming_dict.get(node, pd.DataFrame())
@@ -128,7 +128,7 @@ def detect_smurfing(G, transactions_df, time_window_hours=72, min_fan=10):
                     if len(fan_out_tx) >= 10:
                         fan_out_amounts = fan_out_tx['amount'].values
                         variance = fan_out_amounts.std() / (fan_out_amounts.mean() + 1)
-                        if variance < 0.08:  # Slightly tighter: 0.1 → 0.08 (less FP exclusion)
+                        if variance < 0.02:  # Slightly tighter: 0.1 → 0.05 → 0.02 (less FP exclusion)
                             continue
 
                     member_accounts = list(set(

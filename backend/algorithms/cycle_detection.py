@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 
 
-def detect_cycles(G, min_length=3, max_length=5, max_cycles=100, min_edge_amount=100):
+def detect_cycles(G, min_length=3, max_length=5, max_cycles=None, min_edge_amount=500):
     """
     Detect Circular Fund Routing patterns (spec: cycles of length 3 to 5).
     
@@ -14,6 +14,10 @@ def detect_cycles(G, min_length=3, max_length=5, max_cycles=100, min_edge_amount
     """
     # Work on a copy, pre-filtering edges below min amount to reduce noise
     H = G.copy()
+    if max_cycles is None:
+        N = H.number_of_nodes()
+        max_cycles = max(10, int(0.15 * N)) if N < 1000 else max(100, int(0.05 * N))
+
     if min_edge_amount > 0:
         low_edges = [(u, v) for u, v, d in H.edges(data=True)
                      if d.get('total_amount', 0) < min_edge_amount]

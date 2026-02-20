@@ -156,8 +156,8 @@ def calculate_suspicion_scores(G, cycles, smurfing_patterns, shell_patterns):
         # Sub-pattern richness bonus (more behavioral signals = more suspicious)
         raw_score += 1.5 * max(0, len(sub_pats) - 1)
 
-        # Sigmoid normalization — center shifted slightly from 25 to 23 for marginal recall boost
-        score = 100.0 / (1.0 + math.exp(-0.1 * (raw_score - 23)))
+        # Sigmoid normalization — center shifted to 10 for extra recall
+        score = 100.0 / (1.0 + math.exp(-0.15 * (raw_score - 10)))
         score = round(min(99.99, max(0.01, score)), 2)
 
         # Get unified ring root from DSU (raw account ID, will be mapped below)
